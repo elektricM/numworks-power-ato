@@ -1,0 +1,27 @@
+#pragma experiment("TRAITS")
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component TOPPOWER_TP4056_42_ESOP8_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C16581", date="2026-02-02T18:57:40.204572+00:00", checksum="640a3261eea22194b8521b887d2c8d5ab6232b1fa048cd80250c9dcd2d17f4e0">
+
+    trait is_atomic_part<manufacturer="TOPPOWER", partnumber="TP4056-42-ESOP8", footprint="ESOP-8_L4.9-W3.9-P1.27-LS6.0-BL-EP.kicad_mod", symbol="TP4056.kicad_sym", model="ESOP-8_L4.9-W3.9-H1.6-LS6.0-P1.27.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C16581", manufacturer="TOPPOWER", partno="TP4056-42-ESOP8">
+    trait has_designator_prefix<prefix="U">
+    trait has_datasheet<datasheet="https://www.lcsc.com/datasheet/lcsc_datasheet_1809261820_TOPPOWER-Nanjing-Extension-Microelectronics-TP4056-42-ESOP8_C16581.pdf">
+
+    # pins
+    signal BAT ~ pin 5
+    signal CE ~ pin 8
+    signal EP ~ pin 9
+    signal GND ~ pin 3
+    signal PROG ~ pin 2
+    signal TEMP ~ pin 1
+    signal VCC ~ pin 4
+    signal nCHRG ~ pin 7
+    signal nSTDBY ~ pin 6

@@ -1,0 +1,213 @@
+(footprint "TOPPOWER_TP4056_42_ESOP8:ESOP-8_L4.9-W3.9-P1.27-LS6.0-BL-EP"
+	(version 20241229)
+	(generator "faebryk_convert")
+	(generator_version "v5")
+	(layer "F.Cu")
+	(tedit "5DC5F6A4")
+	(uuid "79f0a2cf-28f9-4544-a1b6-b379d26d3b60")
+	(property "Reference" "REF**"
+		(at 0 -6.91)
+		(layer "F.SilkS")
+		(uuid "19173c3a-1239-47a9-9ed3-bb1ea54d198e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "ESOP-8_L4.9-W3.9-P1.27-LS6.0-BL-EP"
+		(at 0 6.91)
+		(layer "F.Fab")
+		(uuid "bb66b02c-a323-44af-a853-3497ae12c17b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_circle
+		(center -2.45 2.95)
+		(end -2.42 2.95)
+		(stroke
+			(width 0.06)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(locked no)
+		(uuid "74722761-1e6d-4321-9cb4-3268c2a4ca4b")
+	)
+	(fp_circle
+		(center -1.96 3.28)
+		(end -1.81 3.28)
+		(stroke
+			(width 0.3)
+			(type solid)
+		)
+		(layer "Cmts.User")
+		(locked no)
+		(uuid "3df7a435-179d-4148-9df7-23d1a62c3e95")
+	)
+	(fp_circle
+		(center -3.03 2.5)
+		(end -2.86 2.5)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(locked no)
+		(uuid "f07ed79a-9ebc-4531-b299-67e0fb362d6a")
+	)
+	(fp_line
+		(start -2.55 -2.05)
+		(end 2.55 -2.05)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "f5ca1783-8b34-493e-987e-22f83658d475")
+	)
+	(fp_line
+		(start 2.55 -2.05)
+		(end 2.55 2.05)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "ad848872-c29b-4c74-ba69-12668eba8a3a")
+	)
+	(fp_line
+		(start 2.55 2.05)
+		(end -2.55 2.05)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "da0ddf4e-73ca-4906-9d81-5d6797b0ad41")
+	)
+	(fp_line
+		(start -2.55 -0.8)
+		(end -2.55 -2.05)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "a828618b-b242-4115-8f40-199aad330f38")
+	)
+	(fp_line
+		(start -2.55 0.8)
+		(end -2.55 2.05)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "e7b83cbb-b1d9-4707-873d-d722e21756e0")
+	)
+	(fp_arc
+		(start -2.5 0.8)
+		(mid -1.9885861 -0.0030851)
+		(end -2.5056092 -0.8025705)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(locked no)
+		(uuid "381a3fa8-efeb-408e-8647-8aba81278b1f")
+	)
+	(fp_text user "%R"
+		(at 0 0)
+		(layer "F.Fab")
+		(uuid "086cd251-cd47-4443-a43f-da1b7e71eb03")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -1.91 2.91 0)
+		(size 0.6 1.2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "4ad9bb0f-519b-4428-885e-0aa502fb527f")
+	)
+	(pad "2" smd rect
+		(at -0.64 2.91 0)
+		(size 0.6 1.2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "11d949aa-95ac-49cf-aac8-6b8431ad276d")
+	)
+	(pad "3" smd rect
+		(at 0.64 2.91 0)
+		(size 0.6 1.2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "8e990c15-d753-4fdf-893c-9a938832baff")
+	)
+	(pad "4" smd rect
+		(at 1.91 2.91 0)
+		(size 0.6 1.2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "e55216d3-6a31-4ab4-843d-131b49a014b5")
+	)
+	(pad "5" smd rect
+		(at 1.91 -2.91 0)
+		(size 0.6 1.2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "89797491-ee81-41d7-815a-751c1b266189")
+	)
+	(pad "6" smd rect
+		(at 0.64 -2.91 0)
+		(size 0.6 1.2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "dc1dc2b1-9e0d-418d-ba18-6d08cbb9effe")
+	)
+	(pad "7" smd rect
+		(at -0.64 -2.91 0)
+		(size 0.6 1.2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "0c1753cb-3417-459d-adb0-478f2d0c7cf5")
+	)
+	(pad "8" smd rect
+		(at -1.91 -2.91 0)
+		(size 0.6 1.2)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "cccf7a27-0efd-49cd-a6b6-1775523608fe")
+	)
+	(pad "9" smd rect
+		(at 0 0 180)
+		(size 3.3 2.4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "e52521e9-a8e5-47d6-982d-402287cc99f9")
+	)
+	(model "${KIPRJMOD}/../../parts/TOPPOWER_TP4056_42_ESOP8/ESOP-8_L4.9-W3.9-H1.6-LS6.0-P1.27.step"
+		(offset
+			(xyz 0 0 -0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 270)
+		)
+	)
+	(embedded_fonts no)
+)

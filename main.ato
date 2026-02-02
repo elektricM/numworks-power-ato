@@ -1,0 +1,239 @@
+"""
+NumWorks N0100 Power Module
+Internal daughter board: TP4056 charger + DW01A/FS8205A protection + TPS63020 5V buck-boost.
+All connections via solder pads — no connectors.
+"""
+#pragma experiment("TRAITS")
+
+import Resistor
+import Capacitor
+import Inductor
+
+from "parts/TOPPOWER_TP4056_42_ESOP8/TOPPOWER_TP4056_42_ESOP8.ato" import TOPPOWER_TP4056_42_ESOP8_package
+from "parts/PUOLOP_DW01A/PUOLOP_DW01A.ato" import PUOLOP_DW01A_package
+from "parts/Fortune_Semicon_FS8205/Fortune_Semicon_FS8205.ato" import Fortune_Semicon_FS8205_package
+from "parts/Texas_Instruments_TPS63020DSJR/Texas_Instruments_TPS63020DSJR.ato" import Texas_Instruments_TPS63020DSJR_package
+
+
+module BatteryProtection:
+    """DW01A + FS8205A dual MOSFET: over-charge, over-discharge, over-current, short-circuit"""
+    signal bat_pos
+    signal bat_neg
+    signal gnd
+
+    # DW01A protection IC
+    ic = new PUOLOP_DW01A_package
+    ic.VCC ~ bat_pos
+    ic.GND ~ bat_neg
+
+    # FS8205A dual N-MOSFET
+    mosfet = new Fortune_Semicon_FS8205_package
+    mosfet.S1 ~ gnd
+    mosfet.G1 ~ ic.OD
+    mosfet.G2 ~ ic.OC
+    mosfet.S2 ~ bat_neg
+
+    # Current sense resistor (100Ω between bat_neg and VM)
+    r_cs = new Resistor
+    r_cs.resistance = 100ohm +/- 1%
+    r_cs.package = "0402"
+    r_cs.unnamed[0] ~ bat_neg
+    r_cs.unnamed[1] ~ ic.VM
+
+    # Bypass cap on VCC-GND of DW01A
+    c_bypass = new Capacitor
+    c_bypass.capacitance = 100nF +/- 10%
+    c_bypass.package = "0402"
+    c_bypass.unnamed[0] ~ bat_pos
+    c_bypass.unnamed[1] ~ bat_neg
+
+
+module Charger:
+    """TP4056 linear Li-Ion charger, 500mA (R_PROG=2kΩ)"""
+    signal vusb
+    signal gnd
+    signal vbat
+    signal chg_stat
+
+    ic = new TOPPOWER_TP4056_42_ESOP8_package
+    ic.VCC ~ vusb
+    ic.GND ~ gnd
+    ic.EP ~ gnd
+    ic.BAT ~ vbat
+    ic.CE ~ vusb
+    ic.TEMP ~ gnd
+    ic.nCHRG ~ chg_stat
+
+    # Program resistor: 2kΩ = 500mA charge current
+    r_prog = new Resistor
+    r_prog.resistance = 2kohm +/- 1%
+    r_prog.package = "0402"
+    r_prog.unnamed[0] ~ ic.PROG
+    r_prog.unnamed[1] ~ gnd
+
+    # Input decoupling (USB side)
+    c_in = new Capacitor
+    c_in.capacitance = 4.7uF +/- 20%
+    c_in.package = "0603"
+    c_in.unnamed[0] ~ vusb
+    c_in.unnamed[1] ~ gnd
+
+    # Output decoupling (battery side)
+    c_bat = new Capacitor
+    c_bat.capacitance = 4.7uF +/- 20%
+    c_bat.package = "0603"
+    c_bat.unnamed[0] ~ vbat
+    c_bat.unnamed[1] ~ gnd
+
+
+module BuckBoost5V:
+    """TPS63020: 3.0-4.2V → 5V for Raspberry Pi Zero 2W"""
+    signal vin
+    signal gnd
+    signal vout
+    signal enable
+
+    ic = new Texas_Instruments_TPS63020DSJR_package
+    ic.VIN ~ vin
+    ic.VINA ~ vin
+    ic.GND ~ gnd
+    ic.PGND ~ gnd
+    ic.VOUT ~ vout
+    ic.EN ~ enable
+
+    # 2.2µH inductor (3A rated)
+    l1 = new Inductor
+    l1.inductance = 2.2uH +/- 20%
+    l1.unnamed[0] ~ ic.L1
+    l1.unnamed[1] ~ ic.L2
+
+    # Feedback divider: 1MΩ / 110kΩ → Vout ≈ 5.045V
+    r_fb_top = new Resistor
+    r_fb_top.resistance = 1Mohm +/- 1%
+    r_fb_top.package = "0402"
+    r_fb_top.unnamed[0] ~ vout
+    r_fb_top.unnamed[1] ~ ic.FB
+
+    r_fb_bot = new Resistor
+    r_fb_bot.resistance = 110kohm +/- 1%
+    r_fb_bot.package = "0402"
+    r_fb_bot.unnamed[0] ~ ic.FB
+    r_fb_bot.unnamed[1] ~ gnd
+
+    # EN pull-down: default OFF, STM32 PB9 drives high to enable Pi
+    r_en = new Resistor
+    r_en.resistance = 100kohm +/- 5%
+    r_en.package = "0402"
+    r_en.unnamed[0] ~ enable
+    r_en.unnamed[1] ~ gnd
+
+    # PS/SYNC pull-down: forced PWM mode (better for Pi)
+    r_ps = new Resistor
+    r_ps.resistance = 100kohm +/- 5%
+    r_ps.package = "0402"
+    r_ps.unnamed[0] ~ ic.PS_SYNC
+    r_ps.unnamed[1] ~ gnd
+
+    # Input caps: 2x 10µF
+    c_vin1 = new Capacitor
+    c_vin1.capacitance = 10uF +/- 20%
+    c_vin1.package = "0603"
+    c_vin1.unnamed[0] ~ vin
+    c_vin1.unnamed[1] ~ gnd
+
+    c_vin2 = new Capacitor
+    c_vin2.capacitance = 10uF +/- 20%
+    c_vin2.package = "0603"
+    c_vin2.unnamed[0] ~ vin
+    c_vin2.unnamed[1] ~ gnd
+
+    # Output caps: 2x 22µF
+    c_vout1 = new Capacitor
+    c_vout1.capacitance = 22uF +/- 20%
+    c_vout1.package = "0805"
+    c_vout1.unnamed[0] ~ vout
+    c_vout1.unnamed[1] ~ gnd
+
+    c_vout2 = new Capacitor
+    c_vout2.capacitance = 22uF +/- 20%
+    c_vout2.package = "0805"
+    c_vout2.unnamed[0] ~ vout
+    c_vout2.unnamed[1] ~ gnd
+
+
+module BatteryMonitor:
+    """Voltage divider for STM32 ADC (PA1): VBAT/2"""
+    signal vbat
+    signal gnd
+    signal vbat_sns
+
+    r_top = new Resistor
+    r_top.resistance = 1Mohm +/- 1%
+    r_top.package = "0402"
+    r_top.unnamed[0] ~ vbat
+    r_top.unnamed[1] ~ vbat_sns
+
+    r_bot = new Resistor
+    r_bot.resistance = 1Mohm +/- 1%
+    r_bot.package = "0402"
+    r_bot.unnamed[0] ~ vbat_sns
+    r_bot.unnamed[1] ~ gnd
+
+    # ADC filter cap
+    c_adc = new Capacitor
+    c_adc.capacitance = 100nF +/- 10%
+    c_adc.package = "0402"
+    c_adc.unnamed[0] ~ vbat_sns
+    c_adc.unnamed[1] ~ gnd
+
+
+module App:
+    """
+    NumWorks N0100 Power Module — Top Level
+
+    Solder pad connections to mainboard:
+      VUSB     ← mainboard USB 5V
+      GND      — common ground
+      VBAT_RAW — battery +
+      BAT_NEG  — battery − (through protection)
+      V5_PI    → 5V to Pi Zero 2W
+      PI_EN    ← STM32 PB9 (enable Pi power)
+      CHG_STAT → STM32 PA0 (charging indicator)
+      VBAT_SNS → STM32 PA1 (battery voltage / 2)
+    """
+
+    # === Solder pads (external connections) ===
+    signal vusb
+    signal gnd
+    signal vbat_raw
+    signal bat_neg
+    signal v5_pi
+    signal pi_en
+    signal chg_stat
+    signal vbat_sns
+
+    # === Battery Protection ===
+    protection = new BatteryProtection
+    protection.bat_pos ~ vbat_raw
+    protection.bat_neg ~ bat_neg
+    protection.gnd ~ gnd
+
+    # === Li-Ion Charger ===
+    charger = new Charger
+    charger.vusb ~ vusb
+    charger.gnd ~ gnd
+    charger.vbat ~ vbat_raw
+    charger.chg_stat ~ chg_stat
+
+    # === 5V Buck-Boost for Pi ===
+    boost = new BuckBoost5V
+    boost.vin ~ vbat_raw
+    boost.gnd ~ gnd
+    boost.vout ~ v5_pi
+    boost.enable ~ pi_en
+
+    # === Battery Monitor ===
+    monitor = new BatteryMonitor
+    monitor.vbat ~ vbat_raw
+    monitor.gnd ~ gnd
+    monitor.vbat_sns ~ vbat_sns
