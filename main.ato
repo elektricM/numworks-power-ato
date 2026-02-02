@@ -9,6 +9,7 @@ All connections via solder pads — no connectors.
 import Resistor
 import Capacitor
 import Inductor
+from "parts/SXN_SMNR4020_22UH/SXN_SMNR4020_22UH.ato" import SXN_SMNR4020_22UH_package
 
 from "parts/TOPPOWER_TP4056_42_ESOP8/TOPPOWER_TP4056_42_ESOP8.ato" import TOPPOWER_TP4056_42_ESOP8_package
 from "parts/SX_SX1308/SX_SX1308.ato" import SX_SX1308_package
@@ -90,11 +91,11 @@ module Boost5V:
     ic.GND ~ gnd
     ic.EN ~ vin         # Always enabled (MOSFET controls power upstream)
 
-    # 22µH inductor — standard for SX1308/MT3608 boost at 1.2MHz
-    l1 = new Inductor
-    l1.inductance = 22uH +/- 20%
-    l1.unnamed[0] ~ vin
-    l1.unnamed[1] ~ ic.SW
+    # 22µH inductor — 4x4x2mm shielded (same as AliExpress boost modules)
+    # SMNR4020-22UH: 1.05A sat, sufficient for Pi Zero 2W (~0.8A input current)
+    l1 = new SXN_SMNR4020_22UH_package
+    l1.1 ~ vin
+    l1.2 ~ ic.SW
 
     # SS34 Schottky diode (3A, 40V) — rectifies boost output
     d1 = new MDD_Microdiode_Electronics_SS34_package

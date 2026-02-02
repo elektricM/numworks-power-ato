@@ -231,4 +231,11 @@
 		(options "")
 		(descr "atopile: part lib: UNI_ROYAL_0603WAF3002T5E")
 	)
+	(lib
+		(name "SXN_SMNR4020_22UH")
+		(type "KiCad")
+		(uri "${KIPRJMOD}/../../parts/SXN_SMNR4020_22UH")
+		(options "")
+		(descr "atopile: part lib: SXN_SMNR4020_22UH")
+	)
 )

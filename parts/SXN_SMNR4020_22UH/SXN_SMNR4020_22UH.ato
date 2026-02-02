@@ -1,0 +1,20 @@
+#pragma experiment("TRAITS")
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component SXN_SMNR4020_22UH_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C135264", date="2026-02-02T20:32:55.907768+00:00", checksum="4e0349b34c79cf4e6d0d86379b3da329ff3e2bf0c4bfe45808d251daba8aaf60">
+
+    trait is_atomic_part<manufacturer="SXN", partnumber="SMNR4020-22UH", footprint="IND-SMD_L4.0-W4.0_LQH44PN2R2MP0L.kicad_mod", symbol="SMNR4020-22UH.kicad_sym", model="IND-SMD_L4.0-W4.0-H1.65.STEP">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C135264", manufacturer="SXN", partno="SMNR4020-22UH">
+    trait has_designator_prefix<prefix="L">
+    trait has_datasheet<datasheet="https://www.lcsc.com/datasheet/lcsc_datasheet_2108131530_SXN-Shun-Xiang-Nuo-Elec-SMNR4020-22UH_C135264.pdf">
+
+    # pins
+    pin 2
+    pin 1
