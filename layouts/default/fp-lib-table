@@ -217,4 +217,18 @@
 		(options "")
 		(descr "atopile: part lib: UNI_ROYAL_0402WGF3002TCE")
 	)
+	(lib
+		(name "UNI_ROYAL_0603WAF2203T5E")
+		(type "KiCad")
+		(uri "${KIPRJMOD}/../../parts/UNI_ROYAL_0603WAF2203T5E")
+		(options "")
+		(descr "atopile: part lib: UNI_ROYAL_0603WAF2203T5E")
+	)
+	(lib
+		(name "UNI_ROYAL_0603WAF3002T5E")
+		(type "KiCad")
+		(uri "${KIPRJMOD}/../../parts/UNI_ROYAL_0603WAF3002T5E")
+		(options "")
+		(descr "atopile: part lib: UNI_ROYAL_0603WAF3002T5E")
+	)
 )

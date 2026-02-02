@@ -102,15 +102,16 @@ module Boost5V:
     d1.K ~ vout         # Cathode = output
 
     # Feedback divider: 220kΩ / 30kΩ → 5.0V output
+    # Using 0603 package — these values are JLCPCB Basic in 0603 (saves $6 vs 0402 Extended)
     r_fb_top = new Resistor
     r_fb_top.resistance = 220kohm +/- 1%
-    r_fb_top.package = "0402"
+    r_fb_top.package = "0603"
     r_fb_top.unnamed[0] ~ vout
     r_fb_top.unnamed[1] ~ ic.FB
 
     r_fb_bot = new Resistor
     r_fb_bot.resistance = 30kohm +/- 1%
-    r_fb_bot.package = "0402"
+    r_fb_bot.package = "0603"
     r_fb_bot.unnamed[0] ~ ic.FB
     r_fb_bot.unnamed[1] ~ gnd
 
