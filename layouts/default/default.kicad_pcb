@@ -3717,6 +3717,17 @@
 			)
 		)
 	)
+	(gr_text "NW-PWR"
+		(at 134 102.5)
+		(layer "F.SilkS")
+		(uuid "ff100001-0000-0000-0000-000000000001")
+		(effects
+			(font
+				(size 0.7 0.7)
+				(thickness 0.12)
+			)
+		)
+	)
 	(zone
 		(net 15)
 		(net_name "lv")
