@@ -1,0 +1,121 @@
+{
+  "modules": {
+    "NW_PWR": {
+      "ports": {
+        "VUSB": { "direction": "input", "bits": [2] },
+        "GND": { "direction": "input", "bits": [3] },
+        "VBAT": { "direction": "input", "bits": [4] },
+        "PI_EN": { "direction": "input", "bits": [5] },
+        "V5_PI": { "direction": "output", "bits": [6] },
+        "CHG_STAT": { "direction": "output", "bits": [7] }
+      },
+      "cells": {
+        "U2\\nTP4056": {
+          "type": "TP4056",
+          "port_directions": {
+            "VCC": "input",
+            "CE": "input",
+            "PROG": "output",
+            "TEMP": "input",
+            "GND": "input",
+            "EP": "input",
+            "BAT": "output",
+            "nCHRG": "output",
+            "nSTDBY": "output"
+          },
+          "connections": {
+            "VCC": [2],
+            "CE": [2],
+            "PROG": [10],
+            "TEMP": [3],
+            "GND": [3],
+            "EP": [3],
+            "BAT": [4],
+            "nCHRG": [7],
+            "nSTDBY": [11]
+          }
+        },
+        "R5\\n2kΩ": {
+          "type": "resistor",
+          "port_directions": { "A": "input", "B": "output" },
+          "connections": { "A": [10], "B": [3] }
+        },
+        "C6\\n4.7µF": {
+          "type": "capacitor",
+          "port_directions": { "+": "input", "-": "output" },
+          "connections": { "+": [2], "-": [3] }
+        },
+        "C5\\n4.7µF": {
+          "type": "capacitor",
+          "port_directions": { "+": "input", "-": "output" },
+          "connections": { "+": [4], "-": [3] }
+        },
+        "Q1\\nAO3401A\\n(P-MOSFET)": {
+          "type": "AO3401A",
+          "port_directions": {
+            "S": "input",
+            "G": "input",
+            "D": "output"
+          },
+          "connections": {
+            "S": [4],
+            "G": [5],
+            "D": [8]
+          }
+        },
+        "R8\\n100kΩ": {
+          "type": "resistor",
+          "port_directions": { "A": "input", "B": "output" },
+          "connections": { "A": [4], "B": [5] }
+        },
+        "U1\\nSX1308": {
+          "type": "SX1308",
+          "port_directions": {
+            "VIN": "input",
+            "EN": "input",
+            "GND": "input",
+            "SW": "output",
+            "FB": "input"
+          },
+          "connections": {
+            "VIN": [8],
+            "EN": [8],
+            "GND": [3],
+            "SW": [9],
+            "FB": [12]
+          }
+        },
+        "L1\\n22µH": {
+          "type": "inductor",
+          "port_directions": { "1": "input", "2": "output" },
+          "connections": { "1": [8], "2": [9] }
+        },
+        "D1\\nSS34": {
+          "type": "diode",
+          "port_directions": { "A": "input", "K": "output" },
+          "connections": { "A": [9], "K": [6] }
+        },
+        "R3\\n220kΩ": {
+          "type": "resistor",
+          "port_directions": { "A": "input", "B": "output" },
+          "connections": { "A": [6], "B": [12] }
+        },
+        "R2\\n30kΩ": {
+          "type": "resistor",
+          "port_directions": { "A": "input", "B": "output" },
+          "connections": { "A": [12], "B": [3] }
+        },
+        "C1\\n10µF": {
+          "type": "capacitor",
+          "port_directions": { "+": "input", "-": "output" },
+          "connections": { "+": [8], "-": [3] }
+        },
+        "C2\\n22µF": {
+          "type": "capacitor",
+          "port_directions": { "+": "input", "-": "output" },
+          "connections": { "+": [6], "-": [3] }
+        }
+      }
+    }
+  }
+}
