@@ -1,0 +1,121 @@
+{
+  "modules": {
+    "NW_PWR": {
+      "ports": {
+        "VUSB": { "direction": "input", "bits": [2] },
+        "GND": { "direction": "input", "bits": [3] },
+        "VBAT": { "direction": "input", "bits": [4] },
+        "PI_EN": { "direction": "input", "bits": [5] },
+        "V5_PI": { "direction": "output", "bits": [6] },
+        "CHG_STAT": { "direction": "output", "bits": [7] }
+      },
+      "cells": {
+        "U2 TP4056": {
+          "type": "U2 TP4056",
+          "port_directions": {
+            "VCC": "input",
+            "CE": "input",
+            "PROG": "output",
+            "TEMP": "input",
+            "GND": "input",
+            "EP": "input",
+            "BAT": "output",
+            "nCHRG": "output",
+            "nSTDBY": "output"
+          },
+          "connections": {
+            "VCC": [2],
+            "CE": [2],
+            "PROG": [10],
+            "TEMP": [3],
+            "GND": [3],
+            "EP": [3],
+            "BAT": [4],
+            "nCHRG": [7],
+            "nSTDBY": [11]
+          }
+        },
+        "R5 2k": {
+          "type": "R5 2kΩ",
+          "port_directions": { "A": "input", "B": "output" },
+          "connections": { "A": [10], "B": [3] }
+        },
+        "C6 4.7uF": {
+          "type": "C6 4.7µF",
+          "port_directions": { "+": "input", "-": "output" },
+          "connections": { "+": [2], "-": [3] }
+        },
+        "C5 4.7uF": {
+          "type": "C5 4.7µF",
+          "port_directions": { "+": "input", "-": "output" },
+          "connections": { "+": [4], "-": [3] }
+        },
+        "Q1 AO3401A": {
+          "type": "Q1 AO3401A P-FET",
+          "port_directions": {
+            "S": "input",
+            "G": "input",
+            "D": "output"
+          },
+          "connections": {
+            "S": [4],
+            "G": [5],
+            "D": [8]
+          }
+        },
+        "R8 100k": {
+          "type": "R8 100kΩ",
+          "port_directions": { "A": "input", "B": "output" },
+          "connections": { "A": [4], "B": [5] }
+        },
+        "U1 SX1308": {
+          "type": "U1 SX1308",
+          "port_directions": {
+            "VIN": "input",
+            "EN": "input",
+            "GND": "input",
+            "SW": "output",
+            "FB": "input"
+          },
+          "connections": {
+            "VIN": [8],
+            "EN": [8],
+            "GND": [3],
+            "SW": [9],
+            "FB": [12]
+          }
+        },
+        "L1 22uH": {
+          "type": "L1 22µH",
+          "port_directions": { "1": "input", "2": "output" },
+          "connections": { "1": [8], "2": [9] }
+        },
+        "D1 SS34": {
+          "type": "D1 SS34",
+          "port_directions": { "A": "input", "K": "output" },
+          "connections": { "A": [9], "K": [6] }
+        },
+        "R3 220k": {
+          "type": "R3 220kΩ",
+          "port_directions": { "A": "input", "B": "output" },
+          "connections": { "A": [6], "B": [12] }
+        },
+        "R2 30k": {
+          "type": "R2 30kΩ",
+          "port_directions": { "A": "input", "B": "output" },
+          "connections": { "A": [12], "B": [3] }
+        },
+        "C1 10uF": {
+          "type": "C1 10µF",
+          "port_directions": { "+": "input", "-": "output" },
+          "connections": { "+": [8], "-": [3] }
+        },
+        "C2 22uF": {
+          "type": "C2 22µF",
+          "port_directions": { "+": "input", "-": "output" },
+          "connections": { "+": [6], "-": [3] }
+        }
+      }
+    }
+  }
+}
