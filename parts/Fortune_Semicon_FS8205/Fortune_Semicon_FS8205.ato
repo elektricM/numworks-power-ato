@@ -1,0 +1,24 @@
+#pragma experiment("TRAITS")
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component Fortune_Semicon_FS8205_package:
+    """FS8205"""
+
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C32254", date="2026-02-02T18:20:03.993003+00:00", checksum="16cd75b69bc65463d5a65573641c48059678474d35da16a18d4aa72e0d4666ea">
+
+    trait is_atomic_part<manufacturer="Fortune Semicon", partnumber="FS8205", footprint="SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR.kicad_mod", symbol="FS8205.kicad_sym", model="SOT-23-6_L2.9-W1.6-H1.5-LS2.8-P0.95.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C32254", manufacturer="Fortune Semicon", partno="FS8205">
+    trait has_designator_prefix<prefix="Q">
+
+    # pins
+    signal D12 ~ pin 2
+    D12 ~ pin 5
+    signal G1 ~ pin 6
+    signal G2 ~ pin 4
+    signal S1 ~ pin 1
+    signal S2 ~ pin 3

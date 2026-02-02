@@ -1,0 +1,124 @@
+(footprint "cjiang_FTC252012S2R2MBCA:IND-SMD_L2.5-W2.0_MHCHL2520"
+    (layer "F.Cu")
+    (descr "")
+    (version 20241229)
+    (generator "faebryk")
+    (generator_version "v5")
+    (tedit "5DC5F6A4")
+    (property "Reference" "REF**"
+        (at 0 -4 0)
+        (layer "F.SilkS")
+        (hide no)
+        (uuid "677e0367-3bbf-48e4-b48c-08e3def0695f")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+    )
+    (property "Value" "IND-SMD_L2.5-W2.0_MHCHL2520"
+        (at 0 4 0)
+        (layer "F.Fab")
+        (hide no)
+        (uuid "65b5dee8-4f62-4780-ad8b-d34f90c4754a")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+    )
+    (property "checksum" "79c328e34ab4308b186a72d4c2ff61f4f95ddcc2aa7de7395a7726984b89fc20"
+        (at 0 0 0)
+        (layer "User.9")
+        (hide no)
+        (uuid "f132fbdd-9a79-4c14-b20f-0dcd8f3957d8")
+        (effects
+            (font
+                (size 0.125 0.125)
+                (thickness 0.01875)
+            )
+            (hide yes)
+        )
+    )
+    (attr through_hole)
+    (fp_line
+        (start -0.37 -1)
+        (end 0.37 -1)
+        (stroke
+            (width 0.2)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "1b4a6681-cf28-41e3-bc9a-0d3ab5b138dd")
+    )
+    (fp_line
+        (start -0.37 1)
+        (end 0.37 1)
+        (stroke
+            (width 0.2)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "9534a186-beb1-420c-9b1c-161566be5734")
+    )
+    (fp_circle
+        (center -1.25 1)
+        (end -1.22 1)
+        (stroke
+            (width 0.06)
+            (type solid)
+        )
+        (fill no)
+        (layer "F.Fab")
+        (uuid "f72b3aa0-e663-4ccc-b3f5-553e6a3c1e00")
+    )
+    (fp_text user "%R"
+        (at 0 0 0)
+        (layer "F.Fab")
+        (uuid "fd4a8483-7caa-4413-87da-2d6c11bf4b3c")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+        (unlocked no)
+    )
+    (fp_text user "${REFERENCE}"
+        (at 0 -4 0)
+        (layer "F.SilkS")
+        (uuid "677e0367-3bbf-48e4-b48c-08e3def0695f")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+        (unlocked no)
+    )
+    (pad "2" smd rect
+        (at 1 0 90)
+        (size 2.2 0.8)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "b874fa05-a007-4966-97c3-ed464f4f81bd")
+    )
+    (pad "1" smd rect
+        (at -1 0 90)
+        (size 2.2 0.8)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "670b630a-5441-4d93-9897-cf1e115f0e02")
+    )
+    (model "${KIPRJMOD}/../../parts/cjiang_FTC252012S2R2MBCA/IND-SMD_L2.5-W2.0_MHCHL2520.STEP"
+        (offset
+            (xyz 0 0 0)
+        )
+        (scale
+            (xyz 1 1 1)
+        )
+        (rotate
+            (xyz 0 0 0)
+        )
+    )
+)

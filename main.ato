@@ -1,0 +1,231 @@
+"""
+NumWorks N0100 Power Module
+Internal daughter board replacing broken RT9526A charger.
+TP4056 charger + DW01A/FS8205A protection + TPS63020 5V boost for Pi Zero 2W.
+No connectors — all connections via solder pads/wires to mainboard.
+"""
+#pragma experiment("TRAITS")
+
+import Resistor, Capacitor, Inductor, ElectricPower
+
+from "parts/TOPPOWER_TP4056_42_ESOP8/TOPPOWER_TP4056_42_ESOP8.ato" import TOPPOWER_TP4056_42_ESOP8_package
+from "parts/PUOLOP_DW01A/PUOLOP_DW01A.ato" import PUOLOP_DW01A_package
+from "parts/Fortune_Semicon_FS8205/Fortune_Semicon_FS8205.ato" import Fortune_Semicon_FS8205_package
+from "parts/Texas_Instruments_TPS63020DSJR/Texas_Instruments_TPS63020DSJR.ato" import Texas_Instruments_TPS63020DSJR_package
+
+
+module BatteryProtection:
+    """DW01A + FS8205A: prevents over-charge, over-discharge, over-current"""
+    signal bat_pos   # Battery + (from charger)
+    signal gnd       # System GND
+    signal bat_neg   # Battery - (between cells and MOSFETs)
+
+    ic = new PUOLOP_DW01A_package
+    ic.VCC ~ bat_pos
+    ic.GND ~ bat_neg
+
+    mosfet = new Fortune_Semicon_FS8205_package
+    mosfet.S1 ~ gnd
+    mosfet.G1 ~ ic.OD      # Over-discharge gate
+    mosfet.G2 ~ ic.OC      # Over-charge gate
+    mosfet.S2 ~ bat_neg
+
+    # Current sense
+    r_cs = new Resistor
+    r_cs.resistance = 100ohm +/- 1%
+    r_cs.package = "0402"
+    r_cs.p1 ~ bat_neg
+    r_cs.p2 ~ ic.VM
+
+    # Bypass cap
+    c_prot = new Capacitor
+    c_prot.capacitance = 100nF +/- 10%
+    c_prot.package = "0402"
+    c_prot.p1 ~ bat_pos
+    c_prot.p2 ~ bat_neg
+
+
+module Charger:
+    """TP4056: 500mA linear Li-Ion charger (R_PROG=2k)"""
+    signal vusb
+    signal gnd
+    signal vbat
+    signal chg_stat
+
+    ic = new TOPPOWER_TP4056_42_ESOP8_package
+    ic.VCC ~ vusb
+    ic.GND ~ gnd
+    ic.EP ~ gnd
+    ic.BAT ~ vbat
+    ic.CE ~ vusb          # Always enabled when USB present
+    ic.TEMP ~ gnd         # No NTC thermistor
+    ic.nCHRG ~ chg_stat   # Active-low charging indicator -> STM32 PA0
+
+    # 2kΩ = 500mA charge current
+    r_prog = new Resistor
+    r_prog.resistance = 2kohm +/- 1%
+    r_prog.package = "0402"
+    r_prog.p1 ~ ic.PROG
+    r_prog.p2 ~ gnd
+
+    # Input decoupling
+    c_in = new Capacitor
+    c_in.capacitance = 4.7uF +/- 20%
+    c_in.package = "0603"
+    c_in.p1 ~ vusb
+    c_in.p2 ~ gnd
+
+    # Battery decoupling
+    c_bat = new Capacitor
+    c_bat.capacitance = 4.7uF +/- 20%
+    c_bat.package = "0603"
+    c_bat.p1 ~ vbat
+    c_bat.p2 ~ gnd
+
+
+module BuckBoost5V:
+    """TPS63020: 3.0-4.2V battery -> 5V for Pi Zero 2W"""
+    signal vin
+    signal gnd
+    signal vout
+    signal enable      # STM32 PB9 drives this high to power Pi
+
+    ic = new Texas_Instruments_TPS63020DSJR_package
+    ic.VIN ~ vin
+    ic.VINA ~ vin
+    ic.GND ~ gnd
+    ic.PGND ~ gnd
+    ic.VOUT ~ vout
+    ic.EN ~ enable
+
+    # 2.2µH inductor
+    l1 = new Inductor
+    l1.inductance = 2.2uH +/- 20%
+    l1.p1 ~ ic.L1
+    l1.p2 ~ ic.L2
+
+    # FB divider: 1M/110k -> Vout ≈ 5.045V
+    r_fb_top = new Resistor
+    r_fb_top.resistance = 1Mohm +/- 1%
+    r_fb_top.package = "0402"
+    r_fb_top.p1 ~ vout
+    r_fb_top.p2 ~ ic.FB
+
+    r_fb_bot = new Resistor
+    r_fb_bot.resistance = 110kohm +/- 1%
+    r_fb_bot.package = "0402"
+    r_fb_bot.p1 ~ ic.FB
+    r_fb_bot.p2 ~ gnd
+
+    # EN pull-down: default OFF, STM32 drives high to enable
+    r_en = new Resistor
+    r_en.resistance = 100kohm +/- 5%
+    r_en.package = "0402"
+    r_en.p1 ~ enable
+    r_en.p2 ~ gnd
+
+    # PS/SYNC pull-down: forced PWM mode
+    r_ps = new Resistor
+    r_ps.resistance = 100kohm +/- 5%
+    r_ps.package = "0402"
+    r_ps.p1 ~ ic.PS_SYNC
+    r_ps.p2 ~ gnd
+
+    # Input: 2x 10µF
+    c_vin1 = new Capacitor
+    c_vin1.capacitance = 10uF +/- 20%
+    c_vin1.package = "0603"
+    c_vin1.p1 ~ vin
+    c_vin1.p2 ~ gnd
+
+    c_vin2 = new Capacitor
+    c_vin2.capacitance = 10uF +/- 20%
+    c_vin2.package = "0603"
+    c_vin2.p1 ~ vin
+    c_vin2.p2 ~ gnd
+
+    # Output: 2x 22µF
+    c_vout1 = new Capacitor
+    c_vout1.capacitance = 22uF +/- 20%
+    c_vout1.package = "0805"
+    c_vout1.p1 ~ vout
+    c_vout1.p2 ~ gnd
+
+    c_vout2 = new Capacitor
+    c_vout2.capacitance = 22uF +/- 20%
+    c_vout2.package = "0805"
+    c_vout2.p1 ~ vout
+    c_vout2.p2 ~ gnd
+
+
+module BatteryMonitor:
+    """1:1 voltage divider for STM32 ADC (PA1) battery monitoring"""
+    signal vbat
+    signal gnd
+    signal vbat_sns    # -> STM32 PA1, reads VBAT/2
+
+    r_top = new Resistor
+    r_top.resistance = 1Mohm +/- 1%
+    r_top.package = "0402"
+    r_top.p1 ~ vbat
+    r_top.p2 ~ vbat_sns
+
+    r_bot = new Resistor
+    r_bot.resistance = 1Mohm +/- 1%
+    r_bot.package = "0402"
+    r_bot.p1 ~ vbat_sns
+    r_bot.p2 ~ gnd
+
+    c_adc = new Capacitor
+    c_adc.capacitance = 100nF +/- 10%
+    c_adc.package = "0402"
+    c_adc.p1 ~ vbat_sns
+    c_adc.p2 ~ gnd
+
+
+module App:
+    """
+    NumWorks N0100 Power Module - Top Level
+
+    Wire connections to mainboard (solder pads, no connectors):
+      VUSB     - from mainboard USB 5V
+      GND      - common ground
+      VBAT_RAW - to/from battery +
+      BAT_NEG  - to battery -
+      V5_PI    - 5V output to Pi Zero 2W
+      PI_EN    - from STM32 PB9 (Pi power enable)
+      CHG_STAT - to STM32 PA0 (charge status)
+      VBAT_SNS - to STM32 PA1 (battery voltage sense)
+    """
+    signal vusb
+    signal gnd
+    signal vbat_raw
+    signal v5_pi
+    signal pi_en
+    signal chg_stat
+    signal vbat_sns
+
+    # Battery protection
+    protection = new BatteryProtection
+    protection.bat_pos ~ vbat_raw
+    protection.gnd ~ gnd
+
+    # Charger
+    charger = new Charger
+    charger.vusb ~ vusb
+    charger.gnd ~ gnd
+    charger.vbat ~ vbat_raw
+    charger.chg_stat ~ chg_stat
+
+    # 5V boost for Pi
+    boost = new BuckBoost5V
+    boost.vin ~ vbat_raw
+    boost.gnd ~ gnd
+    boost.vout ~ v5_pi
+    boost.enable ~ pi_en
+
+    # Battery monitor
+    monitor = new BatteryMonitor
+    monitor.vbat ~ vbat_raw
+    monitor.gnd ~ gnd
+    monitor.vbat_sns ~ vbat_sns

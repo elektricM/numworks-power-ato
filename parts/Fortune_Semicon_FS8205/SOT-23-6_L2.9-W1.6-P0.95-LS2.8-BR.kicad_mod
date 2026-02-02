@@ -1,0 +1,170 @@
+(footprint "Fortune_Semicon_FS8205:SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR"
+    (layer "F.Cu")
+    (descr "")
+    (version 20241229)
+    (generator "faebryk")
+    (generator_version "v5")
+    (tedit "5DC5F6A4")
+    (property "Reference" "REF**"
+        (at 0 -4.95 0)
+        (layer "F.SilkS")
+        (hide no)
+        (uuid "68203215-2d9a-41ab-97bc-345c39f3f48e")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+    )
+    (property "Value" "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR"
+        (at 0 4.95 0)
+        (layer "F.Fab")
+        (hide no)
+        (uuid "75b4beed-20be-4131-9c1c-0c240dfc17d3")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+    )
+    (property "checksum" "715aec4fcc9a1ce837a47da9019f2cdcea571cab65abb40170665614aa579e4f"
+        (at 0 0 0)
+        (layer "User.9")
+        (hide no)
+        (uuid "d31e0ff7-9f34-44a9-8fae-835c16617de5")
+        (effects
+            (font
+                (size 0.125 0.125)
+                (thickness 0.01875)
+            )
+            (hide yes)
+        )
+    )
+    (attr smd)
+    (fp_line
+        (start -0.9 -1.55)
+        (end 0.9 -1.55)
+        (stroke
+            (width 0.25)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "371614a5-b5eb-4eea-bf1d-aa1cd26ef4cc")
+    )
+    (fp_line
+        (start -0.9 1.55)
+        (end 0.9 1.55)
+        (stroke
+            (width 0.25)
+            (type solid)
+        )
+        (layer "F.SilkS")
+        (uuid "edfd6f4e-e9cb-4248-a946-83cd81c3b79b")
+    )
+    (fp_circle
+        (center 1.4 1.45)
+        (end 1.43 1.45)
+        (stroke
+            (width 0.06)
+            (type solid)
+        )
+        (fill no)
+        (layer "F.Fab")
+        (uuid "56c354b2-3a7f-4cf9-8b94-062c8f26327b")
+    )
+    (fp_circle
+        (center 1.4 0.95)
+        (end 1.5 0.95)
+        (stroke
+            (width 0.2)
+            (type solid)
+        )
+        (fill no)
+        (layer "Cmts.User")
+        (uuid "3ccaa735-3529-40a1-b118-a558f3cf4faf")
+    )
+    (fp_circle
+        (center 1.4 1.65)
+        (end 1.53 1.65)
+        (stroke
+            (width 0.25)
+            (type solid)
+        )
+        (fill no)
+        (layer "F.SilkS")
+        (uuid "ebe52410-6515-41d4-a43f-53780a088fbf")
+    )
+    (fp_text user "%R"
+        (at 0 0 0)
+        (layer "F.Fab")
+        (uuid "523f4cf0-0f53-4414-8bc2-80d3f92fa803")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+        (unlocked no)
+    )
+    (fp_text user "${REFERENCE}"
+        (at 0 -4.95 0)
+        (layer "F.SilkS")
+        (uuid "68203215-2d9a-41ab-97bc-345c39f3f48e")
+        (effects
+            (font
+                (size 1 1)
+                (thickness 0.15)
+            )
+        )
+        (unlocked no)
+    )
+    (pad "3" smd rect
+        (at 1.35 -0.95 0)
+        (size 1.1 0.6)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "55f6b08f-c64f-4f02-b748-a624f57cd634")
+    )
+    (pad "2" smd rect
+        (at 1.35 0 0)
+        (size 1.1 0.6)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "4439325b-7a86-4569-a74c-1f7c237b2c19")
+    )
+    (pad "1" smd rect
+        (at 1.35 0.95 0)
+        (size 1.1 0.6)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "8431ed76-27ca-4aa4-b7b0-c575937ec7eb")
+    )
+    (pad "6" smd rect
+        (at -1.35 0.95 0)
+        (size 1.1 0.6)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "201f9a72-0d2d-4447-a271-21e538cc8950")
+    )
+    (pad "5" smd rect
+        (at -1.35 0 0)
+        (size 1.1 0.6)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "a0ad5d4b-1026-4a14-90a7-0a0aa92e07e7")
+    )
+    (pad "4" smd rect
+        (at -1.35 -0.95 0)
+        (size 1.1 0.6)
+        (layers "F.Cu" "F.Paste" "F.Mask")
+        (uuid "ade64e37-d10a-494d-baac-5a20a65e9b64")
+    )
+    (model "${KIPRJMOD}/../../parts/Fortune_Semicon_FS8205/SOT-23-6_L2.9-W1.6-H1.5-LS2.8-P0.95.step"
+        (offset
+            (xyz 0 0 0)
+        )
+        (scale
+            (xyz 1 1 1)
+        )
+        (rotate
+            (xyz 0 0 180)
+        )
+    )
+)
