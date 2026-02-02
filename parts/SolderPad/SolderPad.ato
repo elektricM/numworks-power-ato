@@ -1,0 +1,14 @@
+#pragma experiment("TRAITS")
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+
+component SolderPad_package:
+    """Simple 1-pin solder pad for wire connection"""
+
+    trait is_atomic_part<manufacturer="Generic", partnumber="SolderPad", footprint="SolderPad.kicad_mod", symbol="SolderPad.kicad_sym", model="">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="NA", manufacturer="Generic", partno="SolderPad">
+    trait has_designator_prefix<prefix="J">
+
+    # pins
+    signal p1 ~ pin 1

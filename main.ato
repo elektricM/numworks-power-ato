@@ -15,6 +15,7 @@ from "parts/TOPPOWER_TP4056_42_ESOP8/TOPPOWER_TP4056_42_ESOP8.ato" import TOPPOW
 from "parts/SX_SX1308/SX_SX1308.ato" import SX_SX1308_package
 from "parts/Alpha___Omega_Semicon_AO3401A/Alpha___Omega_Semicon_AO3401A.ato" import Alpha___Omega_Semicon_AO3401A_package
 from "parts/MDD_Microdiode_Electronics_SS34/MDD_Microdiode_Electronics_SS34.ato" import MDD_Microdiode_Electronics_SS34_package
+from "parts/SolderPad/SolderPad.ato" import SolderPad_package
 
 
 module Charger:
@@ -173,3 +174,22 @@ module App:
     boost.vin ~ vbat_switched
     boost.gnd ~ gnd
     boost.vout ~ v5_pi
+
+    # === Solder Pads (wire connections to mainboard) ===
+    pad_vusb = new SolderPad_package
+    pad_vusb.p1 ~ vusb
+
+    pad_gnd = new SolderPad_package
+    pad_gnd.p1 ~ gnd
+
+    pad_vbat = new SolderPad_package
+    pad_vbat.p1 ~ vbat
+
+    pad_v5_pi = new SolderPad_package
+    pad_v5_pi.p1 ~ v5_pi
+
+    pad_pi_en = new SolderPad_package
+    pad_pi_en.p1 ~ pi_en
+
+    pad_chg_stat = new SolderPad_package
+    pad_chg_stat.p1 ~ chg_stat

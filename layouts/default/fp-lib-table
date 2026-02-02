@@ -238,4 +238,11 @@
 		(options "")
 		(descr "atopile: part lib: SXN_SMNR4020_22UH")
 	)
+	(lib
+		(name "SolderPad")
+		(type "KiCad")
+		(uri "${KIPRJMOD}/../../parts/SolderPad")
+		(options "")
+		(descr "atopile: part lib: SolderPad")
+	)
 )
