@@ -1,0 +1,279 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="monospace" font-size="11">
+  <style>
+    .wire { stroke: #333; stroke-width: 1.5; fill: none; }
+    .power { stroke: #c00; stroke-width: 2; fill: none; }
+    .gnd { stroke: #333; stroke-width: 1.5; fill: none; }
+    .comp { stroke: #333; stroke-width: 1.5; fill: #fff; }
+    .ic { stroke: #333; stroke-width: 1.5; fill: #f8f8f0; }
+    .pad { stroke: #666; stroke-width: 1.5; fill: #ffd; }
+    .label { font-size: 10; fill: #333; }
+    .value { font-size: 9; fill: #666; }
+    .net { font-size: 10; fill: #c00; font-weight: bold; }
+    .title { font-size: 16; fill: #333; font-weight: bold; }
+    .section { font-size: 12; fill: #555; font-weight: bold; }
+    .dot { fill: #333; }
+  </style>
+
+  <!-- Title -->
+  <text x="450" y="25" class="title" text-anchor="middle">NumWorks N0100 Power Module — Schematic</text>
+
+  <!-- ========== SOLDER PADS (left side) ========== -->
+  <text x="30" y="55" class="section">SOLDER PADS</text>
+  
+  <rect x="15" y="70" width="55" height="22" rx="3" class="pad"/>
+  <text x="42" y="85" class="label" text-anchor="middle">VUSB</text>
+  <line x1="70" y1="81" x2="120" y2="81" class="power"/>
+  <text x="95" y="75" class="net">VUSB</text>
+
+  <rect x="15" y="110" width="55" height="22" rx="3" class="pad"/>
+  <text x="42" y="125" class="label" text-anchor="middle">GND</text>
+  <line x1="70" y1="121" x2="120" y2="121" class="gnd"/>
+
+  <rect x="15" y="150" width="55" height="22" rx="3" class="pad"/>
+  <text x="42" y="165" class="label" text-anchor="middle">VBAT</text>
+  <line x1="70" y1="161" x2="120" y2="161" class="power"/>
+  <text x="95" y="155" class="net">VBAT</text>
+
+  <rect x="15" y="210" width="55" height="22" rx="3" class="pad"/>
+  <text x="42" y="225" class="label" text-anchor="middle">PI_EN</text>
+  <line x1="70" y1="221" x2="120" y2="221" class="wire"/>
+  <text x="95" y="215" class="net">PB9</text>
+
+  <rect x="15" y="250" width="55" height="22" rx="3" class="pad"/>
+  <text x="42" y="265" class="label" text-anchor="middle">V5_PI</text>
+  <line x1="70" y1="261" x2="120" y2="261" class="power"/>
+  <text x="95" y="255" class="net">V5_PI</text>
+
+  <rect x="15" y="290" width="55" height="22" rx="3" class="pad"/>
+  <text x="42" y="305" class="label" text-anchor="middle">CHG_STAT</text>
+  <line x1="70" y1="301" x2="120" y2="301" class="wire"/>
+  <text x="88" y="295" class="net">PA0</text>
+
+  <!-- GND symbol -->
+  <line x1="120" y1="121" x2="120" y2="500" class="gnd" stroke-dasharray="4,4"/>
+  <text x="125" y="500" class="value">GND bus</text>
+
+  <!-- ========== CHARGER SECTION ========== -->
+  <text x="210" y="55" class="section">TP4056 Li-Ion Charger (500mA)</text>
+  
+  <!-- TP4056 IC box -->
+  <rect x="180" y="70" width="120" height="160" rx="5" class="ic"/>
+  <text x="240" y="90" class="label" text-anchor="middle" font-weight="bold">U2</text>
+  <text x="240" y="103" class="label" text-anchor="middle">TP4056</text>
+
+  <!-- TP4056 Pins - left side -->
+  <text x="188" y="125" class="label">VCC</text>
+  <text x="188" y="145" class="label">CE</text>
+  <text x="188" y="165" class="label">PROG</text>
+  <text x="188" y="185" class="label">TEMP</text>
+  <text x="188" y="205" class="label">GND/EP</text>
+
+  <!-- TP4056 Pins - right side -->
+  <text x="270" y="125" class="label">BAT</text>
+  <text x="262" y="145" class="label">nCHRG</text>
+  <text x="262" y="165" class="label">nSTDBY</text>
+
+  <!-- VUSB → VCC -->
+  <line x1="120" y1="81" x2="150" y2="81" class="power"/>
+  <line x1="150" y1="81" x2="150" y2="121" class="power"/>
+  <line x1="150" y1="121" x2="180" y2="121" class="power"/>
+
+  <!-- VUSB → CE (tied to VCC = always enabled) -->
+  <line x1="150" y1="141" x2="180" y2="141" class="power"/>
+  <circle cx="150" cy="121" r="2.5" class="dot"/>
+
+  <!-- PROG → R5 → GND -->
+  <line x1="180" y1="161" x2="155" y2="161" class="wire"/>
+  <rect x="140" y="165" width="30" height="12" rx="2" class="comp"/>
+  <text x="155" y="174" class="value" text-anchor="middle">R5</text>
+  <text x="155" y="186" class="value" text-anchor="middle">2kΩ</text>
+  <line x1="155" y1="177" x2="155" y2="195" class="gnd"/>
+  <text x="160" y="195" class="value">⏚</text>
+
+  <!-- TEMP → GND -->
+  <line x1="180" y1="181" x2="155" y2="181" class="gnd"/>
+  <line x1="155" y1="181" x2="155" y2="195" class="gnd"/>
+
+  <!-- GND/EP → GND -->
+  <line x1="180" y1="201" x2="155" y2="201" class="gnd"/>
+  <line x1="155" y1="201" x2="155" y2="195" class="gnd"/>
+
+  <!-- BAT → VBAT -->
+  <line x1="300" y1="121" x2="340" y2="121" class="power"/>
+  <text x="320" y="115" class="net">VBAT</text>
+
+  <!-- Connect VBAT pad to BAT -->
+  <line x1="120" y1="161" x2="340" y2="161" class="power" stroke-dasharray="4,4"/>
+  <line x1="340" y1="121" x2="340" y2="161" class="power"/>
+  <circle cx="340" cy="161" r="2.5" class="dot"/>
+
+  <!-- nCHRG → CHG_STAT pad -->
+  <line x1="300" y1="141" x2="330" y2="141" class="wire"/>
+  <line x1="330" y1="141" x2="330" y2="301" class="wire" stroke-dasharray="3,3"/>
+  <line x1="120" y1="301" x2="330" y2="301" class="wire"/>
+
+  <!-- C6 (input cap) VUSB to GND -->
+  <rect x="155" y="95" width="10" height="18" rx="1" class="comp"/>
+  <text x="170" y="102" class="value">C6</text>
+  <text x="170" y="112" class="value">4.7µF</text>
+  <line x1="160" y1="95" x2="160" y2="81" class="power"/>
+  <line x1="160" y1="113" x2="160" y2="121" class="gnd"/>
+
+  <!-- C5 (bat cap) VBAT to GND -->
+  <rect x="305" y="125" width="10" height="18" rx="1" class="comp"/>
+  <text x="320" y="132" class="value">C5</text>
+  <text x="320" y="142" class="value">4.7µF</text>
+  <line x1="310" y1="125" x2="310" y2="121" class="power"/>
+  <line x1="310" y1="143" x2="310" y2="155" class="gnd"/>
+  <text x="315" y="155" class="value">⏚</text>
+
+  <!-- ========== MOSFET SWITCH ========== -->
+  <text x="420" y="55" class="section">P-MOSFET Switch</text>
+  
+  <!-- AO3401A -->
+  <rect x="400" y="80" width="80" height="70" rx="5" class="ic"/>
+  <text x="440" y="100" class="label" text-anchor="middle" font-weight="bold">Q1</text>
+  <text x="440" y="113" class="label" text-anchor="middle">AO3401A</text>
+  <text x="440" y="126" class="value" text-anchor="middle">P-MOSFET</text>
+  
+  <!-- Pin labels -->
+  <text x="393" y="100" class="label" text-anchor="end">S</text>
+  <text x="393" y="130" class="label" text-anchor="end">G</text>
+  <text x="487" y="100" class="label">D</text>
+
+  <!-- VBAT → Source -->
+  <line x1="340" y1="96" x2="400" y2="96" class="power"/>
+  <line x1="340" y1="96" x2="340" y2="121" class="power"/>
+  <circle cx="340" cy="96" r="2.5" class="dot"/>
+  
+  <!-- Gate ← PI_EN -->
+  <line x1="380" y1="126" x2="400" y2="126" class="wire"/>
+  <line x1="120" y1="221" x2="380" y2="221" class="wire" stroke-dasharray="3,3"/>
+  <line x1="380" y1="126" x2="380" y2="221" class="wire"/>
+
+  <!-- R8 pull-up: VBAT → Gate -->
+  <rect x="355" y="82" width="12" height="30" rx="2" class="comp"/>
+  <text x="345" y="100" class="value" text-anchor="end">R8</text>
+  <text x="345" y="110" class="value" text-anchor="end">100kΩ</text>
+  <line x1="361" y1="82" x2="361" y2="76" class="power"/>
+  <line x1="340" y1="76" x2="361" y2="76" class="power"/>
+  <circle cx="340" cy="76" r="0" class="dot"/>
+  <line x1="361" y1="112" x2="361" y2="126" class="wire"/>
+  <line x1="361" y1="126" x2="380" y2="126" class="wire"/>
+  <circle cx="380" cy="126" r="2.5" class="dot"/>
+  
+  <!-- Drain → VBAT_SWITCHED -->
+  <line x1="480" y1="96" x2="530" y2="96" class="power"/>
+  <text x="500" y="88" class="net" font-size="9">VBAT_SW</text>
+
+  <!-- ========== BOOST CONVERTER ========== -->
+  <text x="620" y="55" class="section">SX1308 Boost (3.7V → 5.0V)</text>
+
+  <!-- SX1308 IC box -->
+  <rect x="590" y="80" width="120" height="120" rx="5" class="ic"/>
+  <text x="650" y="100" class="label" text-anchor="middle" font-weight="bold">U1</text>
+  <text x="650" y="113" class="label" text-anchor="middle">SX1308</text>
+
+  <!-- SX1308 Pins -->
+  <text x="598" y="140" class="label">VIN</text>
+  <text x="598" y="160" class="label">EN</text>
+  <text x="598" y="180" class="label">GND</text>
+  <text x="680" y="140" class="label">SW</text>
+  <text x="680" y="180" class="label">FB</text>
+
+  <!-- L1 inductor: VBAT_SW → SW -->
+  <line x1="530" y1="96" x2="530" y2="136" class="power"/>
+  <line x1="530" y1="136" x2="555" y2="136" class="power"/>
+  <!-- Inductor symbol (humps) -->
+  <path d="M555,136 c5,-10 10,-10 15,0 c5,-10 10,-10 15,0 c5,-10 10,-10 15,0" class="power" fill="none"/>
+  <text x="570" y="128" class="value" text-anchor="middle">L1 22µH</text>
+  <line x1="600" y1="136" x2="590" y2="136" class="power"/>
+
+  <!-- VIN ← VBAT_SW -->
+  <circle cx="555" cy="136" r="2.5" class="dot"/>
+  
+  <!-- EN tied to VIN -->
+  <line x1="555" y1="156" x2="590" y2="156" class="wire"/>
+  <line x1="555" y1="136" x2="555" y2="156" class="wire"/>
+
+  <!-- GND -->
+  <line x1="590" y1="176" x2="570" y2="176" class="gnd"/>
+  <text x="565" y="180" class="value">⏚</text>
+
+  <!-- SW → D1 anode -->
+  <line x1="710" y1="136" x2="740" y2="136" class="power"/>
+  
+  <!-- D1 SS34 diode -->
+  <!-- Triangle + bar symbol -->
+  <polygon points="740,126 740,146 760,136" stroke="#333" stroke-width="1.5" fill="#fff"/>
+  <line x1="760" y1="126" x2="760" y2="146" stroke="#333" stroke-width="2"/>
+  <text x="750" y="118" class="label" text-anchor="middle">D1 SS34</text>
+  
+  <!-- Cathode → V5_PI -->
+  <line x1="760" y1="136" x2="830" y2="136" class="power"/>
+  <text x="800" y="128" class="net">V5_PI</text>
+
+  <!-- C1 input cap: VBAT_SW to GND -->
+  <rect x="525" y="150" width="10" height="18" rx="1" class="comp"/>
+  <text x="515" y="158" class="value" text-anchor="end">C1</text>
+  <text x="515" y="168" class="value" text-anchor="end">10µF</text>
+  <line x1="530" y1="150" x2="530" y2="136" class="power"/>
+  <line x1="530" y1="168" x2="530" y2="180" class="gnd"/>
+  <text x="535" y="180" class="value">⏚</text>
+
+  <!-- C2 output cap: V5_PI to GND -->
+  <rect x="825" y="145" width="10" height="18" rx="1" class="comp"/>
+  <text x="842" y="152" class="value">C2</text>
+  <text x="842" y="162" class="value">22µF</text>
+  <line x1="830" y1="145" x2="830" y2="136" class="power"/>
+  <circle cx="830" cy="136" r="2.5" class="dot"/>
+  <line x1="830" y1="163" x2="830" y2="180" class="gnd"/>
+  <text x="835" y="180" class="value">⏚</text>
+
+  <!-- Feedback divider: V5_PI → R3 → FB → R2 → GND -->
+  <line x1="790" y1="136" x2="790" y2="220" class="wire"/>
+  <circle cx="790" cy="136" r="2.5" class="dot"/>
+  
+  <!-- R3 (220k top) -->
+  <rect x="784" y="220" width="12" height="30" rx="2" class="comp"/>
+  <text x="775" y="238" class="value" text-anchor="end">R3</text>
+  <text x="775" y="248" class="value" text-anchor="end">220kΩ</text>
+  
+  <!-- FB connection -->
+  <line x1="790" y1="250" x2="790" y2="265" class="wire"/>
+  <line x1="710" y1="176" x2="750" y2="176" class="wire"/>
+  <line x1="750" y1="176" x2="750" y2="265" class="wire"/>
+  <line x1="750" y1="265" x2="790" y2="265" class="wire"/>
+  <circle cx="790" cy="265" r="2.5" class="dot"/>
+  <text x="760" y="260" class="net">FB</text>
+  
+  <!-- R2 (30k bottom) -->
+  <rect x="784" y="270" width="12" height="30" rx="2" class="comp"/>
+  <text x="775" y="288" class="value" text-anchor="end">R2</text>
+  <text x="775" y="298" class="value" text-anchor="end">30kΩ</text>
+  
+  <line x1="790" y1="300" x2="790" y2="315" class="gnd"/>
+  <text x="795" y="315" class="value">⏚</text>
+
+  <!-- V5_PI output to pad -->
+  <line x1="830" y1="136" x2="860" y2="136" class="power"/>
+  <line x1="860" y1="136" x2="860" y2="261" class="power" stroke-dasharray="3,3"/>
+  <line x1="120" y1="261" x2="860" y2="261" class="power" stroke-dasharray="3,3"/>
+
+  <!-- ========== FORMULA BOX ========== -->
+  <rect x="600" y="320" width="280" height="70" rx="5" stroke="#aaa" stroke-width="1" fill="#f8f8ff"/>
+  <text x="610" y="340" class="label" font-weight="bold">Feedback: Vout = Vref × (1 + R3/R2)</text>
+  <text x="610" y="358" class="value">= 0.6V × (1 + 220k/30k) = 0.6 × 8.33</text>
+  <text x="610" y="376" class="net" font-size="12">= 5.0V ✓</text>
+
+  <!-- ========== BOM ========== -->
+  <rect x="140" y="380" width="400" height="130" rx="5" stroke="#aaa" stroke-width="1" fill="#f8f8ff"/>
+  <text x="150" y="400" class="section">Bill of Materials (12 components)</text>
+  <text x="155" y="418" class="value">U1: SX1308 (SOT-23-6) — Boost converter      C78162</text>
+  <text x="155" y="432" class="value">U2: TP4056 (ESOP-8) — Li-Ion charger          C16581</text>
+  <text x="155" y="446" class="value">Q1: AO3401A (SOT-23) — P-MOSFET switch        C15127</text>
+  <text x="155" y="460" class="value">D1: SS34 (SMA) — Schottky diode 3A/40V        C8678</text>
+  <text x="155" y="474" class="value">L1: 22µH (4x4x2mm) — Boost inductor           C128694</text>
+  <text x="155" y="488" class="value">R2:30k R3:220k (0603) R5:2k R8:100k (0402) C5,C6:4.7µF</text>
+  <text x="155" y="502" class="value">C1:10µF (0603) C2:22µF (0805)</text>
+</svg>
