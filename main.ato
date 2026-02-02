@@ -147,32 +147,6 @@ module BuckBoost5V:
     c_vout2.unnamed[1] ~ gnd
 
 
-module BatteryMonitor:
-    """Voltage divider for STM32 ADC (PA1): VBAT/2"""
-    signal vbat
-    signal gnd
-    signal vbat_sns
-
-    r_top = new Resistor
-    r_top.resistance = 1Mohm +/- 1%
-    r_top.package = "0402"
-    r_top.unnamed[0] ~ vbat
-    r_top.unnamed[1] ~ vbat_sns
-
-    r_bot = new Resistor
-    r_bot.resistance = 1Mohm +/- 1%
-    r_bot.package = "0402"
-    r_bot.unnamed[0] ~ vbat_sns
-    r_bot.unnamed[1] ~ gnd
-
-    # ADC filter cap
-    c_adc = new Capacitor
-    c_adc.capacitance = 100nF +/- 10%
-    c_adc.package = "0402"
-    c_adc.unnamed[0] ~ vbat_sns
-    c_adc.unnamed[1] ~ gnd
-
-
 module App:
     """
     NumWorks N0100 Power Module — Top Level
@@ -184,7 +158,6 @@ module App:
       V5_PI    → 5V to Pi Zero 2W
       PI_EN    ← STM32 PB9 (low = Pi on, high/float = Pi off)
       CHG_STAT → STM32 PA0 (active-low charging indicator)
-      VBAT_SNS → STM32 PA1 (battery voltage / 2)
     """
 
     # === Solder pads (external connections) ===
@@ -194,7 +167,6 @@ module App:
     signal v5_pi
     signal pi_en
     signal chg_stat
-    signal vbat_sns
 
     # Internal net between MOSFET and buck-boost
     signal vbat_switched
@@ -218,9 +190,3 @@ module App:
     boost.vin ~ vbat_switched
     boost.gnd ~ gnd
     boost.vout ~ v5_pi
-
-    # === Battery Monitor ===
-    monitor = new BatteryMonitor
-    monitor.vbat ~ vbat
-    monitor.gnd ~ gnd
-    monitor.vbat_sns ~ vbat_sns
