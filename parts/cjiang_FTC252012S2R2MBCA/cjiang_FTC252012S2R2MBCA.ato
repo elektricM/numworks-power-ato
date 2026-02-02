@@ -7,7 +7,7 @@ import is_auto_generated
 component cjiang_FTC252012S2R2MBCA_package:
     # This trait marks this file as auto-generated
     # If you want to manually change it, remove the trait
-    trait is_auto_generated<system="ato_part", source="easyeda:C5832372", date="2026-02-02T18:21:04.036127+00:00", checksum="5ad1b08702d9a1cf43c278141c162c2407bedd774fc36089eb22ac94fc7ae293">
+    trait is_auto_generated<system="ato_part", source="easyeda:C5832372", date="2026-02-02T18:29:43.831487+00:00", checksum="9818ca4018eef57a8d472430a8f12d5530aa9ba01564670d0df7853e5d929df3">
 
     trait is_atomic_part<manufacturer="cjiang ", partnumber="FTC252012S2R2MBCA", footprint="IND-SMD_L2.5-W2.0_MHCHL2520.kicad_mod", symbol="FTC252012S2R2MBCA.kicad_sym", model="IND-SMD_L2.5-W2.0_MHCHL2520.STEP">
     trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C5832372", manufacturer="cjiang ", partno="FTC252012S2R2MBCA">

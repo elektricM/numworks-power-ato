@@ -6,7 +6,10 @@ No connectors — all connections via solder pads/wires to mainboard.
 """
 #pragma experiment("TRAITS")
 
-import Resistor, Capacitor, Inductor, ElectricPower
+import Resistor
+import Capacitor
+import Inductor
+import ElectricPower
 
 from "parts/TOPPOWER_TP4056_42_ESOP8/TOPPOWER_TP4056_42_ESOP8.ato" import TOPPOWER_TP4056_42_ESOP8_package
 from "parts/PUOLOP_DW01A/PUOLOP_DW01A.ato" import PUOLOP_DW01A_package
@@ -34,15 +37,15 @@ module BatteryProtection:
     r_cs = new Resistor
     r_cs.resistance = 100ohm +/- 1%
     r_cs.package = "0402"
-    r_cs.p1 ~ bat_neg
-    r_cs.p2 ~ ic.VM
+    r_cs.unnamed[0] ~ bat_neg
+    r_cs.unnamed[1] ~ ic.VM
 
     # Bypass cap
     c_prot = new Capacitor
     c_prot.capacitance = 100nF +/- 10%
     c_prot.package = "0402"
-    c_prot.p1 ~ bat_pos
-    c_prot.p2 ~ bat_neg
+    c_prot.unnamed[0] ~ bat_pos
+    c_prot.unnamed[1] ~ bat_neg
 
 
 module Charger:
@@ -65,22 +68,22 @@ module Charger:
     r_prog = new Resistor
     r_prog.resistance = 2kohm +/- 1%
     r_prog.package = "0402"
-    r_prog.p1 ~ ic.PROG
-    r_prog.p2 ~ gnd
+    r_prog.unnamed[0] ~ ic.PROG
+    r_prog.unnamed[1] ~ gnd
 
     # Input decoupling
     c_in = new Capacitor
     c_in.capacitance = 4.7uF +/- 20%
     c_in.package = "0603"
-    c_in.p1 ~ vusb
-    c_in.p2 ~ gnd
+    c_in.unnamed[0] ~ vusb
+    c_in.unnamed[1] ~ gnd
 
     # Battery decoupling
     c_bat = new Capacitor
     c_bat.capacitance = 4.7uF +/- 20%
     c_bat.package = "0603"
-    c_bat.p1 ~ vbat
-    c_bat.p2 ~ gnd
+    c_bat.unnamed[0] ~ vbat
+    c_bat.unnamed[1] ~ gnd
 
 
 module BuckBoost5V:
@@ -101,61 +104,61 @@ module BuckBoost5V:
     # 2.2µH inductor
     l1 = new Inductor
     l1.inductance = 2.2uH +/- 20%
-    l1.p1 ~ ic.L1
-    l1.p2 ~ ic.L2
+    l1.unnamed[0] ~ ic.L1
+    l1.unnamed[1] ~ ic.L2
 
     # FB divider: 1M/110k -> Vout ≈ 5.045V
     r_fb_top = new Resistor
     r_fb_top.resistance = 1Mohm +/- 1%
     r_fb_top.package = "0402"
-    r_fb_top.p1 ~ vout
-    r_fb_top.p2 ~ ic.FB
+    r_fb_top.unnamed[0] ~ vout
+    r_fb_top.unnamed[1] ~ ic.FB
 
     r_fb_bot = new Resistor
     r_fb_bot.resistance = 110kohm +/- 1%
     r_fb_bot.package = "0402"
-    r_fb_bot.p1 ~ ic.FB
-    r_fb_bot.p2 ~ gnd
+    r_fb_bot.unnamed[0] ~ ic.FB
+    r_fb_bot.unnamed[1] ~ gnd
 
     # EN pull-down: default OFF, STM32 drives high to enable
     r_en = new Resistor
     r_en.resistance = 100kohm +/- 5%
     r_en.package = "0402"
-    r_en.p1 ~ enable
-    r_en.p2 ~ gnd
+    r_en.unnamed[0] ~ enable
+    r_en.unnamed[1] ~ gnd
 
     # PS/SYNC pull-down: forced PWM mode
     r_ps = new Resistor
     r_ps.resistance = 100kohm +/- 5%
     r_ps.package = "0402"
-    r_ps.p1 ~ ic.PS_SYNC
-    r_ps.p2 ~ gnd
+    r_ps.unnamed[0] ~ ic.PS_SYNC
+    r_ps.unnamed[1] ~ gnd
 
     # Input: 2x 10µF
     c_vin1 = new Capacitor
     c_vin1.capacitance = 10uF +/- 20%
     c_vin1.package = "0603"
-    c_vin1.p1 ~ vin
-    c_vin1.p2 ~ gnd
+    c_vin1.unnamed[0] ~ vin
+    c_vin1.unnamed[1] ~ gnd
 
     c_vin2 = new Capacitor
     c_vin2.capacitance = 10uF +/- 20%
     c_vin2.package = "0603"
-    c_vin2.p1 ~ vin
-    c_vin2.p2 ~ gnd
+    c_vin2.unnamed[0] ~ vin
+    c_vin2.unnamed[1] ~ gnd
 
     # Output: 2x 22µF
     c_vout1 = new Capacitor
     c_vout1.capacitance = 22uF +/- 20%
     c_vout1.package = "0805"
-    c_vout1.p1 ~ vout
-    c_vout1.p2 ~ gnd
+    c_vout1.unnamed[0] ~ vout
+    c_vout1.unnamed[1] ~ gnd
 
     c_vout2 = new Capacitor
     c_vout2.capacitance = 22uF +/- 20%
     c_vout2.package = "0805"
-    c_vout2.p1 ~ vout
-    c_vout2.p2 ~ gnd
+    c_vout2.unnamed[0] ~ vout
+    c_vout2.unnamed[1] ~ gnd
 
 
 module BatteryMonitor:
@@ -167,20 +170,20 @@ module BatteryMonitor:
     r_top = new Resistor
     r_top.resistance = 1Mohm +/- 1%
     r_top.package = "0402"
-    r_top.p1 ~ vbat
-    r_top.p2 ~ vbat_sns
+    r_top.unnamed[0] ~ vbat
+    r_top.unnamed[1] ~ vbat_sns
 
     r_bot = new Resistor
     r_bot.resistance = 1Mohm +/- 1%
     r_bot.package = "0402"
-    r_bot.p1 ~ vbat_sns
-    r_bot.p2 ~ gnd
+    r_bot.unnamed[0] ~ vbat_sns
+    r_bot.unnamed[1] ~ gnd
 
     c_adc = new Capacitor
     c_adc.capacitance = 100nF +/- 10%
     c_adc.package = "0402"
-    c_adc.p1 ~ vbat_sns
-    c_adc.p2 ~ gnd
+    c_adc.unnamed[0] ~ vbat_sns
+    c_adc.unnamed[1] ~ gnd
 
 
 module App:

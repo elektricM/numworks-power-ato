@@ -7,7 +7,7 @@ import is_auto_generated
 component FOJAN_FRC0402F1103TS_package:
     # This trait marks this file as auto-generated
     # If you want to manually change it, remove the trait
-    trait is_auto_generated<system="ato_part", source="easyeda:C2909311", date="2026-02-02T18:21:05.676784+00:00", checksum="07cd60320662a9e6d13ecfe47fff65a7b5ea103906b072b23a1ce0f899f2d17a">
+    trait is_auto_generated<system="ato_part", source="easyeda:C2909311", date="2026-02-02T18:29:43.844047+00:00", checksum="4a2228a98d15d7f59334735102a1d77bcdeb7c910787fd7abb571fe90904c3db">
 
     trait is_atomic_part<manufacturer="FOJAN", partnumber="FRC0402F1103TS", footprint="R0402.kicad_mod", symbol="FRC0402F1103TS.kicad_sym", model="R0402_L1.0-W0.5-H0.4.step">
     trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C2909311", manufacturer="FOJAN", partno="FRC0402F1103TS">
