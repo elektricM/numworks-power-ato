@@ -1,6 +1,7 @@
 """
 NumWorks N0100 Power Module
-Internal daughter board: TP4056 charger + DW01A/FS8205A protection + TPS63020 5V buck-boost.
+Internal daughter board: TP4056 charger (replaces broken RT9526A) +
+TPS63020 5V buck-boost for Pi Zero 2W + AO3401A P-MOSFET power switch.
 All connections via solder pads — no connectors.
 """
 #pragma experiment("TRAITS")
@@ -10,42 +11,8 @@ import Capacitor
 import Inductor
 
 from "parts/TOPPOWER_TP4056_42_ESOP8/TOPPOWER_TP4056_42_ESOP8.ato" import TOPPOWER_TP4056_42_ESOP8_package
-from "parts/PUOLOP_DW01A/PUOLOP_DW01A.ato" import PUOLOP_DW01A_package
-from "parts/Fortune_Semicon_FS8205/Fortune_Semicon_FS8205.ato" import Fortune_Semicon_FS8205_package
 from "parts/Texas_Instruments_TPS63020DSJR/Texas_Instruments_TPS63020DSJR.ato" import Texas_Instruments_TPS63020DSJR_package
-
-
-module BatteryProtection:
-    """DW01A + FS8205A dual MOSFET: over-charge, over-discharge, over-current, short-circuit"""
-    signal bat_pos
-    signal bat_neg
-    signal gnd
-
-    # DW01A protection IC
-    ic = new PUOLOP_DW01A_package
-    ic.VCC ~ bat_pos
-    ic.GND ~ bat_neg
-
-    # FS8205A dual N-MOSFET
-    mosfet = new Fortune_Semicon_FS8205_package
-    mosfet.S1 ~ gnd
-    mosfet.G1 ~ ic.OD
-    mosfet.G2 ~ ic.OC
-    mosfet.S2 ~ bat_neg
-
-    # Current sense resistor (100Ω between bat_neg and VM)
-    r_cs = new Resistor
-    r_cs.resistance = 100ohm +/- 1%
-    r_cs.package = "0402"
-    r_cs.unnamed[0] ~ bat_neg
-    r_cs.unnamed[1] ~ ic.VM
-
-    # Bypass cap on VCC-GND of DW01A
-    c_bypass = new Capacitor
-    c_bypass.capacitance = 100nF +/- 10%
-    c_bypass.package = "0402"
-    c_bypass.unnamed[0] ~ bat_pos
-    c_bypass.unnamed[1] ~ bat_neg
+from "parts/Alpha___Omega_Semicon_AO3401A/Alpha___Omega_Semicon_AO3401A.ato" import Alpha___Omega_Semicon_AO3401A_package
 
 
 module Charger:
@@ -86,12 +53,38 @@ module Charger:
     c_bat.unnamed[1] ~ gnd
 
 
+module PowerSwitch:
+    """AO3401A P-MOSFET high-side switch: STM32 controls Pi power via VBAT → buck-boost"""
+    signal vbat
+    signal gnd
+    signal vout
+    signal enable      # STM32 PB9: high = off, low = on (P-channel)
+
+    mosfet = new Alpha___Omega_Semicon_AO3401A_package
+    mosfet.S ~ vbat    # Source = battery (high side)
+    mosfet.D ~ vout    # Drain = output to buck-boost
+    mosfet.G ~ enable
+
+    # Gate pull-up to VBAT: default OFF (gate = source = no Vgs)
+    r_pu = new Resistor
+    r_pu.resistance = 100kohm +/- 5%
+    r_pu.package = "0402"
+    r_pu.unnamed[0] ~ vbat
+    r_pu.unnamed[1] ~ enable
+
+    # Gate drive resistor (limits inrush, slows switching)
+    r_gate = new Resistor
+    r_gate.resistance = 10kohm +/- 5%
+    r_gate.package = "0402"
+    r_gate.unnamed[0] ~ enable
+    r_gate.unnamed[1] ~ gnd
+
+
 module BuckBoost5V:
     """TPS63020: 3.0-4.2V → 5V for Raspberry Pi Zero 2W"""
     signal vin
     signal gnd
     signal vout
-    signal enable
 
     ic = new Texas_Instruments_TPS63020DSJR_package
     ic.VIN ~ vin
@@ -99,7 +92,7 @@ module BuckBoost5V:
     ic.GND ~ gnd
     ic.PGND ~ gnd
     ic.VOUT ~ vout
-    ic.EN ~ enable
+    ic.EN ~ vin        # Always enabled when input present (MOSFET controls power)
 
     # 2.2µH inductor (3A rated)
     l1 = new Inductor
@@ -119,13 +112,6 @@ module BuckBoost5V:
     r_fb_bot.package = "0402"
     r_fb_bot.unnamed[0] ~ ic.FB
     r_fb_bot.unnamed[1] ~ gnd
-
-    # EN pull-down: default OFF, STM32 PB9 drives high to enable Pi
-    r_en = new Resistor
-    r_en.resistance = 100kohm +/- 5%
-    r_en.package = "0402"
-    r_en.unnamed[0] ~ enable
-    r_en.unnamed[1] ~ gnd
 
     # PS/SYNC pull-down: forced PWM mode (better for Pi)
     r_ps = new Resistor
@@ -194,46 +180,47 @@ module App:
     Solder pad connections to mainboard:
       VUSB     ← mainboard USB 5V
       GND      — common ground
-      VBAT_RAW — battery +
-      BAT_NEG  — battery − (through protection)
+      VBAT     — battery + (charge/discharge)
       V5_PI    → 5V to Pi Zero 2W
-      PI_EN    ← STM32 PB9 (enable Pi power)
-      CHG_STAT → STM32 PA0 (charging indicator)
+      PI_EN    ← STM32 PB9 (low = Pi on, high/float = Pi off)
+      CHG_STAT → STM32 PA0 (active-low charging indicator)
       VBAT_SNS → STM32 PA1 (battery voltage / 2)
     """
 
     # === Solder pads (external connections) ===
     signal vusb
     signal gnd
-    signal vbat_raw
-    signal bat_neg
+    signal vbat
     signal v5_pi
     signal pi_en
     signal chg_stat
     signal vbat_sns
 
-    # === Battery Protection ===
-    protection = new BatteryProtection
-    protection.bat_pos ~ vbat_raw
-    protection.bat_neg ~ bat_neg
-    protection.gnd ~ gnd
+    # Internal net between MOSFET and buck-boost
+    signal vbat_switched
 
     # === Li-Ion Charger ===
     charger = new Charger
     charger.vusb ~ vusb
     charger.gnd ~ gnd
-    charger.vbat ~ vbat_raw
+    charger.vbat ~ vbat
     charger.chg_stat ~ chg_stat
+
+    # === P-MOSFET Power Switch ===
+    power_sw = new PowerSwitch
+    power_sw.vbat ~ vbat
+    power_sw.gnd ~ gnd
+    power_sw.vout ~ vbat_switched
+    power_sw.enable ~ pi_en
 
     # === 5V Buck-Boost for Pi ===
     boost = new BuckBoost5V
-    boost.vin ~ vbat_raw
+    boost.vin ~ vbat_switched
     boost.gnd ~ gnd
     boost.vout ~ v5_pi
-    boost.enable ~ pi_en
 
     # === Battery Monitor ===
     monitor = new BatteryMonitor
-    monitor.vbat ~ vbat_raw
+    monitor.vbat ~ vbat
     monitor.gnd ~ gnd
     monitor.vbat_sns ~ vbat_sns
