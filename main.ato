@@ -1,7 +1,7 @@
 """
 NumWorks N0100 Power Module
 Internal daughter board: TP4056 charger (replaces broken RT9526A) +
-TPS63020 5V buck-boost for Pi Zero 2W + AO3401A P-MOSFET power switch.
+SX1308 5V boost for Pi Zero 2W + AO3401A P-MOSFET power switch.
 All connections via solder pads — no connectors.
 """
 #pragma experiment("TRAITS")
@@ -11,8 +11,9 @@ import Capacitor
 import Inductor
 
 from "parts/TOPPOWER_TP4056_42_ESOP8/TOPPOWER_TP4056_42_ESOP8.ato" import TOPPOWER_TP4056_42_ESOP8_package
-from "parts/Texas_Instruments_TPS63020DSJR/Texas_Instruments_TPS63020DSJR.ato" import Texas_Instruments_TPS63020DSJR_package
+from "parts/SX_SX1308/SX_SX1308.ato" import SX_SX1308_package
 from "parts/Alpha___Omega_Semicon_AO3401A/Alpha___Omega_Semicon_AO3401A.ato" import Alpha___Omega_Semicon_AO3401A_package
+from "parts/MDD_Microdiode_Electronics_SS34/MDD_Microdiode_Electronics_SS34.ato" import MDD_Microdiode_Electronics_SS34_package
 
 
 module Charger:
@@ -54,97 +55,78 @@ module Charger:
 
 
 module PowerSwitch:
-    """AO3401A P-MOSFET high-side switch: STM32 controls Pi power via VBAT → buck-boost"""
+    """AO3401A P-MOSFET high-side switch: STM32 controls Pi power via VBAT → boost"""
     signal vbat
-    signal gnd
     signal vout
-    signal enable      # STM32 PB9: high = off, low = on (P-channel)
+    signal enable      # STM32 PB9: high/float = off, low = on (P-channel)
 
     mosfet = new Alpha___Omega_Semicon_AO3401A_package
     mosfet.S ~ vbat    # Source = battery (high side)
-    mosfet.D ~ vout    # Drain = output to buck-boost
+    mosfet.D ~ vout    # Drain = output to boost converter
     mosfet.G ~ enable
 
-    # Gate pull-up to VBAT: default OFF (gate = source = no Vgs)
+    # Gate pull-up to VBAT: default OFF (Vgs=0 when floating)
+    # STM32 drives low to turn ON (Vgs = -VBAT ≈ -3.7V, well below -1.4V threshold)
     r_pu = new Resistor
     r_pu.resistance = 100kohm +/- 5%
     r_pu.package = "0402"
     r_pu.unnamed[0] ~ vbat
     r_pu.unnamed[1] ~ enable
 
-    # Gate drive resistor (limits inrush, slows switching)
-    r_gate = new Resistor
-    r_gate.resistance = 10kohm +/- 5%
-    r_gate.package = "0402"
-    r_gate.unnamed[0] ~ enable
-    r_gate.unnamed[1] ~ gnd
 
-
-module BuckBoost5V:
-    """TPS63020: 3.0-4.2V → 5V for Raspberry Pi Zero 2W"""
+module Boost5V:
+    """SX1308: 3.0-4.2V → 5.0V boost converter for Raspberry Pi Zero 2W
+    
+    Async boost topology: inductor → SW pin, Schottky diode rectifies output.
+    Feedback divider: Vout = 0.6V × (1 + R_top/R_bot)
+    220kΩ / 30kΩ → Vout = 0.6 × 8.33 = 5.0V
+    """
     signal vin
     signal gnd
     signal vout
 
-    ic = new Texas_Instruments_TPS63020DSJR_package
+    ic = new SX_SX1308_package
     ic.VIN ~ vin
-    ic.VINA ~ vin
     ic.GND ~ gnd
-    ic.PGND ~ gnd
-    ic.VOUT ~ vout
-    ic.EN ~ vin        # Always enabled when input present (MOSFET controls power)
+    ic.EN ~ vin         # Always enabled (MOSFET controls power upstream)
 
-    # 2.2µH inductor (3A rated)
+    # 22µH inductor — standard for SX1308/MT3608 boost at 1.2MHz
     l1 = new Inductor
-    l1.inductance = 2.2uH +/- 20%
-    l1.unnamed[0] ~ ic.L1
-    l1.unnamed[1] ~ ic.L2
+    l1.inductance = 22uH +/- 20%
+    l1.unnamed[0] ~ vin
+    l1.unnamed[1] ~ ic.SW
 
-    # Feedback divider: 1MΩ / 110kΩ → Vout ≈ 5.045V
+    # SS34 Schottky diode (3A, 40V) — rectifies boost output
+    d1 = new MDD_Microdiode_Electronics_SS34_package
+    d1.A ~ ic.SW        # Anode = switch node
+    d1.K ~ vout         # Cathode = output
+
+    # Feedback divider: 220kΩ / 30kΩ → 5.0V output
     r_fb_top = new Resistor
-    r_fb_top.resistance = 1Mohm +/- 1%
+    r_fb_top.resistance = 220kohm +/- 1%
     r_fb_top.package = "0402"
     r_fb_top.unnamed[0] ~ vout
     r_fb_top.unnamed[1] ~ ic.FB
 
     r_fb_bot = new Resistor
-    r_fb_bot.resistance = 110kohm +/- 1%
+    r_fb_bot.resistance = 30kohm +/- 1%
     r_fb_bot.package = "0402"
     r_fb_bot.unnamed[0] ~ ic.FB
     r_fb_bot.unnamed[1] ~ gnd
 
-    # PS/SYNC pull-down: forced PWM mode (better for Pi)
-    r_ps = new Resistor
-    r_ps.resistance = 100kohm +/- 5%
-    r_ps.package = "0402"
-    r_ps.unnamed[0] ~ ic.PS_SYNC
-    r_ps.unnamed[1] ~ gnd
+    # Input cap: 10µF ceramic
+    c_in = new Capacitor
+    c_in.capacitance = 10uF +/- 20%
+    c_in.package = "0603"
+    c_in.unnamed[0] ~ vin
+    c_in.unnamed[1] ~ gnd
 
-    # Input caps: 2x 10µF
-    c_vin1 = new Capacitor
-    c_vin1.capacitance = 10uF +/- 20%
-    c_vin1.package = "0603"
-    c_vin1.unnamed[0] ~ vin
-    c_vin1.unnamed[1] ~ gnd
-
-    c_vin2 = new Capacitor
-    c_vin2.capacitance = 10uF +/- 20%
-    c_vin2.package = "0603"
-    c_vin2.unnamed[0] ~ vin
-    c_vin2.unnamed[1] ~ gnd
-
-    # Output caps: 2x 22µF
-    c_vout1 = new Capacitor
-    c_vout1.capacitance = 22uF +/- 20%
-    c_vout1.package = "0805"
-    c_vout1.unnamed[0] ~ vout
-    c_vout1.unnamed[1] ~ gnd
-
-    c_vout2 = new Capacitor
-    c_vout2.capacitance = 22uF +/- 20%
-    c_vout2.package = "0805"
-    c_vout2.unnamed[0] ~ vout
-    c_vout2.unnamed[1] ~ gnd
+    # Output cap: 22µF ceramic
+    c_out = new Capacitor
+    c_out.capacitance = 22uF +/- 20%
+    c_out.package = "0805"
+    c_out.unnamed[0] ~ vout
+    c_out.unnamed[1] ~ gnd
 
 
 module App:
@@ -168,7 +150,7 @@ module App:
     signal pi_en
     signal chg_stat
 
-    # Internal net between MOSFET and buck-boost
+    # Internal net between MOSFET and boost converter
     signal vbat_switched
 
     # === Li-Ion Charger ===
@@ -181,12 +163,11 @@ module App:
     # === P-MOSFET Power Switch ===
     power_sw = new PowerSwitch
     power_sw.vbat ~ vbat
-    power_sw.gnd ~ gnd
     power_sw.vout ~ vbat_switched
     power_sw.enable ~ pi_en
 
-    # === 5V Buck-Boost for Pi ===
-    boost = new BuckBoost5V
+    # === 5V Boost for Pi ===
+    boost = new Boost5V
     boost.vin ~ vbat_switched
     boost.gnd ~ gnd
     boost.vout ~ v5_pi

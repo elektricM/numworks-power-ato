@@ -1,0 +1,25 @@
+#pragma experiment("TRAITS")
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component SX_SX1308_package:
+    """2A Step Up Converter"""
+
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C78162", date="2026-02-02T19:47:52.891514+00:00", checksum="d555fc9a22b978d8a72c4bb7b1ec240de5460f43cbf780d4039c5bdcfc910fb2">
+
+    trait is_atomic_part<manufacturer="SX", partnumber="SX1308", footprint="SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL.kicad_mod", symbol="SX1308.kicad_sym", model="SOT-23-6_L2.9-W1.6-H1.5-LS2.8-P0.95.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C78162", manufacturer="SX", partno="SX1308">
+    trait has_designator_prefix<prefix="U">
+    trait has_datasheet<datasheet="https://www.lcsc.com/datasheet/lcsc_datasheet_1811011513_SX-Shenzhen-Suosemi-Tech-SX1308_C78162.pdf">
+
+    # pins
+    signal EN ~ pin 4
+    signal FB ~ pin 3
+    signal GND ~ pin 2
+    signal SW ~ pin 1
+    signal VIN ~ pin 5

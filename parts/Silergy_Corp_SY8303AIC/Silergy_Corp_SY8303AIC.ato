@@ -1,0 +1,26 @@
+#pragma experiment("TRAITS")
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component Silergy_Corp_SY8303AIC_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C97054", date="2026-02-02T19:41:14.895506+00:00", checksum="fdc76e7a4a550ceb5d3563f12a1b8a3e6a7790c0fd0e5de57516b55e7a0a1fd8">
+
+    trait is_atomic_part<manufacturer="Silergy Corp", partnumber="SY8303AIC", footprint="TSOT-23-8_L2.9-W1.6-P0.65-LS2.8-BR.kicad_mod", symbol="SY8303AIC.kicad_sym", model="TSOT-23-8_L2.9-W1.6-H1.1-LS2.8-P0.65.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C97054", manufacturer="Silergy Corp", partno="SY8303AIC">
+    trait has_designator_prefix<prefix="U">
+    trait has_datasheet<datasheet="https://www.lcsc.com/datasheet/lcsc_datasheet_1811151653_Silergy-Corp-SY8303AIC_C97054.pdf">
+
+    # pins
+    signal BS ~ pin 7
+    signal EN ~ pin 8
+    signal FB ~ pin 1
+    signal FS ~ pin 2
+    signal GND ~ pin 3
+    GND ~ pin 4
+    signal IN ~ pin 5
+    signal LX ~ pin 6
