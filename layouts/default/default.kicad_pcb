@@ -110,6 +110,7 @@
 	(net 6 "chg_stat")
 	(net 7 "c_bat-power-hv")
 	(net 8 "pi_en")
+	(net 11 "lv")
 	(footprint "TOPPOWER_TP4056_42_ESOP8:ESOP-8_L4.9-W3.9-P1.27-LS6.0-BL-EP"
 		(layer "F.Cu")
 		(uuid "4505ce20-16de-44a1-bdc7-63984642524b")
@@ -293,7 +294,7 @@
 			(at -1.91 2.91 0)
 			(size 0.6 1.2)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "4ad9bb0f-519b-4428-885e-0aa502fb527f")
 		)
 		(pad "2" smd rect
@@ -307,7 +308,7 @@
 			(at 0.64 2.91 0)
 			(size 0.6 1.2)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "8e990c15-d753-4fdf-893c-9a938832baff")
 		)
 		(pad "4" smd rect
@@ -349,7 +350,7 @@
 			(at 0 0 180)
 			(size 3.3 2.4)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "e52521e9-a8e5-47d6-982d-402287cc99f9")
 		)
 		(embedded_fonts no)
@@ -507,7 +508,7 @@
 			(at 0 1.15 0)
 			(size 0.53 1.07)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "a4216c54-3486-4751-825a-0750d5a483f1")
 		)
 		(pad "3" smd rect
@@ -801,7 +802,7 @@
 			(at 0.7 0 0)
 			(size 0.8 0.9)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "0bd6975e-d013-45f6-9e3f-8de9d2047fd2")
 		)
 		(pad "1" smd rect
@@ -1301,7 +1302,7 @@
 			(at 0.7 0 0)
 			(size 0.8 0.9)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "0bd6975e-d013-45f6-9e3f-8de9d2047fd2")
 		)
 		(pad "1" smd rect
@@ -1711,7 +1712,7 @@
 			(at 0.43 0 0)
 			(size 0.57 0.54)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "a0c7f944-f755-446d-9596-e3e70a497644")
 		)
 		(pad "1" smd rect
@@ -1937,7 +1938,7 @@
 			(at 0.75 0 90)
 			(size 0.81 0.86)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "874a5827-4c71-42ac-b89a-9436e81e567c")
 		)
 		(pad "1" smd rect
@@ -2799,7 +2800,7 @@
 			(at 1 0 0)
 			(size 1.41 1.35)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "c68299e4-3af2-4be1-b982-bc189b78fe0b")
 		)
 		(pad "1" smd rect
@@ -3073,7 +3074,7 @@
 			(at 0.7 0 0)
 			(size 0.8 0.9)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "8a25c6bf-e26e-4bff-93bd-6a10c5929fe3")
 		)
 		(pad "1" smd rect
@@ -3099,7 +3100,7 @@
 	(footprint "SolderPad:SolderPad"
 		(layer "F.Cu")
 		(uuid "28ca0bde-310b-40fe-92d2-a3e34642524b")
-		(at 123 96.5)
+		(at 103 95.5)
 		(property "LCSC" "NA"
 			(at 0 0 0)
 			(layer "User.9")
@@ -3154,7 +3155,7 @@
 	(footprint "SolderPad:SolderPad"
 		(layer "F.Cu")
 		(uuid "0812ea70-52f4-48d4-81ed-0b564642524b")
-		(at 123 96.5)
+		(at 107.8 95.5)
 		(property "LCSC" "NA"
 			(at 0 0 0)
 			(layer "User.9")
@@ -3202,14 +3203,14 @@
 			(at 0 0)
 			(size 2 1.5)
 			(layers "F.Cu" "F.Paste" "F.Mask")
-			(net 0 "")
+			(net 11 "lv")
 			(uuid "a69987e8-98af-4e09-b1fa-2603722371ea")
 		)
 	)
 	(footprint "SolderPad:SolderPad"
 		(layer "F.Cu")
 		(uuid "53629faf-5444-4e69-8235-61f94642524b")
-		(at 128 96.5)
+		(at 112.6 95.5)
 		(property "LCSC" "NA"
 			(at 0 0 0)
 			(layer "User.9")
@@ -3264,7 +3265,7 @@
 	(footprint "SolderPad:SolderPad"
 		(layer "F.Cu")
 		(uuid "9e790717-b1c2-4a9e-a8cd-e3544642524b")
-		(at 128 96.5)
+		(at 122.2 95.5)
 		(property "LCSC" "NA"
 			(at 0 0 0)
 			(layer "User.9")
@@ -3319,7 +3320,7 @@
 	(footprint "SolderPad:SolderPad"
 		(layer "F.Cu")
 		(uuid "b9f30d46-31b9-47eb-8ced-273b4642524b")
-		(at 128 96.5)
+		(at 117.4 95.5)
 		(property "LCSC" "NA"
 			(at 0 0 0)
 			(layer "User.9")
@@ -3374,7 +3375,7 @@
 	(footprint "SolderPad:SolderPad"
 		(layer "F.Cu")
 		(uuid "3ecac566-ac44-446a-ac10-eaa94642524b")
-		(at 128 96.5)
+		(at 127 95.5)
 		(property "LCSC" "NA"
 			(at 0 0 0)
 			(layer "User.9")
